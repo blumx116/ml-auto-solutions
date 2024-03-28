@@ -1,6 +1,6 @@
-resource "google_container_cluster" "gpu-uc1" {
-  name     = "gpu-uc1"
-  project  = "cloud-ml-auto-solutions"
+resource "google_container_cluster" "tejas_cpu_ray" {
+  name     = "tejas-cpu-ray"
+  project  = "supercomputer-testing"
   location = "us-central1"
 
   release_channel {
@@ -15,10 +15,10 @@ resource "google_container_cluster" "gpu-uc1" {
 }
 
 resource "google_container_node_pool" "primary" {
-  name       = "primary-pool"
-  project  = google_container_cluster.gpu-uc1.project
-  location   = google_container_cluster.gpu-uc1.location
-  cluster    = google_container_cluster.gpu-uc1.name
+  name       = "tejas-nodepool"
+  project  = google_container_cluster.tejas_cpu_ray.project
+  location   = google_container_cluster.tejas_cpu_ray.location
+  cluster    = google_container_cluster.tejas_cpu_ray.name
   node_count = 1
 
   management {
@@ -39,9 +39,9 @@ resource "google_container_node_pool" "primary" {
 
 resource "google_container_node_pool" "nvidia-v100x2" {
   name       = "nvidia-v100x2-pool"
-  project  = google_container_cluster.gpu-uc1.project
-  location   = google_container_cluster.gpu-uc1.location
-  cluster    = google_container_cluster.gpu-uc1.name
+  project  = google_container_cluster.tejas_cpu_ray.project
+  location   = google_container_cluster.tejas_cpu_ray.location
+  cluster    = google_container_cluster.tejas_cpu_ray.name
 
   autoscaling {
     min_node_count = 2
@@ -77,10 +77,10 @@ resource "google_container_node_pool" "nvidia-v100x2" {
 data "google_client_config" "provider" {}
 
 provider "kubernetes" {
-  host  = "https://${google_container_cluster.gpu-uc1.endpoint}"
+  host  = "https://${google_container_cluster.tejas_cpu_ray.endpoint}"
   token = data.google_client_config.provider.access_token
   cluster_ca_certificate = base64decode(
-    google_container_cluster.gpu-uc1.master_auth[0].cluster_ca_certificate,
+    google_container_cluster.tejas_cpu_ray.master_auth[0].cluster_ca_certificate,
   )
 }
 

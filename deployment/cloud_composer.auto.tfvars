@@ -1,16 +1,12 @@
 project_config = {
-  project_name   = "cloud-ml-auto-solutions"
-  project_number = "24860729792"
+  project_name   = "supercomputer-testing"
+  project_number = 455207029971
   project_region = "us-central1"
 }
 
 environment_config = [
   {
-    environment_name   = "ml-automation-solutions"
-    service_account_id = "ml-auto-solutions"
+    environment_name   = "xl-ml-test-environment"
+    service_account_id = "xl-ml-test-service-account"
   },
-  {
-    environment_name   = "ml-automation-solutions-dev"
-    service_account_id = "ml-auto-solutions-dev"
-  }
 ]
